@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Smart Parking Online Reservation</title>
+
+<link rel="stylesheet" href="style.css">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🚗 Smart Parking Online Reservation</h1>
+
+<label>Select Restaurant</label>
+
+<select id="restaurant">
+
+<option>Paradise Biryani - Hanamkonda</option>
+<option>Hotel Ashoka - Hanamkonda</option>
+<option>KFC - Hanamkonda</option>
+<option>Subway - Hanamkonda</option>
+
+</select>
+
+<h2>Available Parking Slots</h2>
+
+<div class="slots">
+
+<button class="slot" data-slot="A1">A1</button>
+<button class="slot" data-slot="A2">A2</button>
+<button class="slot" data-slot="A3">A3</button>
+
+<button class="slot" data-slot="B1">B1</button>
+<button class="slot" data-slot="B2">B2</button>
+<button class="slot" data-slot="B3">B3</button>
+
+</div>
+
+<div class="form">
+
+<input id="name" type="text" placeholder="Enter Name">
+
+<input id="mobile" type="tel" placeholder="Enter Mobile Number">
+
+<button onclick="sendOTP()">Send OTP</button>
+
+<input id="otp" type="text" placeholder="Enter OTP">
+
+<button onclick="verifyOTP()">Verify OTP</button>
+
+<input id="time" type="time">
+
+<button class="book" onclick="bookSlot()">Reserve Parking Slot</button>
+
+</div>
+
+</div>
+
+<!-- Booking Popup -->
+
+<div id="popup" class="popup">
+
+<div class="popup-content">
+
+<h2>🚗 Booking Confirmed</h2>
+
+<p id="bookingDetails"></p>
+
+<button onclick="closePopup()">Close</button>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
