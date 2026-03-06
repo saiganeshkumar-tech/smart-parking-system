@@ -19,7 +19,7 @@
 
 <div class="card">
 
-<h3>Select Restaurant / Theatre</h3>
+<h2 class="title">Select Restaurant / Theatre</h2>
 
 <select id="type" onchange="loadPlaces()">
 <option value="restaurant">Restaurant Parking</option>
@@ -28,7 +28,7 @@
 
 <select id="placeSelect"></select>
 
-<h3>Available Parking Slots</h3>
+<h2 class="title">Available Parking Slots</h2>
 
 <div class="grid">
 
@@ -42,11 +42,22 @@
 
 </div>
 
+<h2 class="title">Parking Time</h2>
+
+<select id="timeSlot">
+<option>30 Minutes</option>
+<option>1 Hour</option>
+<option>2 Hours</option>
+<option>3 Hours</option>
+</select>
+
 <input id="name" placeholder="Enter Name">
 
 <input id="mobile" placeholder="Enter Mobile Number">
 
 <button onclick="sendOTP()">Send OTP</button>
+
+<p id="otpDisplay"></p>
 
 <input id="otp" placeholder="Enter OTP">
 
@@ -58,14 +69,6 @@
 </select>
 
 <input id="vehicleNumber" placeholder="Vehicle Number">
-
-<div class="counter">
-
-<p>Total Slots: <span id="totalSlots">6</span></p>
-<p>Booked Slots: <span id="bookedSlots">0</span></p>
-<p>Available Slots: <span id="availableSlots">6</span></p>
-
-</div>
 
 <button class="reserve" onclick="makePayment()">Reserve Parking Slot</button>
 
