@@ -1,187 +1,152 @@
 let selectedSlot = "";
 
-// Restaurants list
-const restaurants = [
-"Taj Restaurant Hanamkonda",
-"Spicy Hub Hanamkonda",
-"Vaishnavi Grand",
-"Hotel Ashoka",
-"New Paradise",
-"Kritunga Restaurant",
-"SR Grand",
-"Hotel Haritha",
-"Royal Kitchen",
-"Green Bawarchi"
-];
-
-// Movie theatres list
-const movies = [
-"Asian Mukta A2 Cinemas",
-"PVR Cinemas Hanamkonda",
-"Amrutha Theatre",
-"Ramakrishna Theatre",
-"Venkateshwara Theatre",
-"INOX Warangal",
-"Asian Mall Cinemas",
-"Shiva Theatre",
-"Laxmi Theatre",
-"Geetha Theatre"
-];
-
-
-// Load restaurant or theatre list
 function loadPlaces(){
 
-let type = document.getElementById("type").value;
+const restaurants=[
+"Taj Restaurant Hanamkonda",
+"Spicy Hub",
+"Vaishnavi Grand"
+];
 
-let list = type === "restaurant" ? restaurants : movies;
+const select=document.getElementById("placeSelect");
 
-let select = document.getElementById("placeSelect");
+select.innerHTML="";
 
-select.innerHTML = "";
-
-list.forEach(place => {
-
-let option = document.createElement("option");
-option.text = place;
-option.value = place;
-
+restaurants.forEach(r=>{
+let option=document.createElement("option");
+option.text=r;
 select.add(option);
-
 });
 
 }
 
 loadPlaces();
 
+document.querySelectorAll(".slot").forEach(slot=>{
 
-// Slot selection
-document.querySelectorAll(".slot").forEach(slot => {
+slot.onclick=function(){
 
-slot.onclick = function(){
+selectedSlot=this.getAttribute("data");
 
-selectedSlot = this.getAttribute("data");
+document.querySelectorAll(".slot").forEach(s=>s.style.background="#2ecc71");
 
-document.querySelectorAll(".slot").forEach(s => s.style.background = "#2ecc71");
+this.style.background="orange";
 
-this.style.background = "orange";
-
-};
+}
 
 });
 
-
-// Send OTP
 function sendOTP(){
 
-fetch("/send-otp",{method:"POST"})
-.then(res => res.json())
-.then(data => {
+const mobile=document.getElementById("mobile").value;
 
-document.getElementById("otpDisplay").innerText = "OTP: " + data.otp;
+if(!/^[0-9]{10}$/.test(mobile)){
 
-});
+alert("Enter valid mobile number");
+
+return;
 
 }
 
+const otp=Math.floor(100000+Math.random()*900000);
 
-// Verify OTP
+window.generatedOTP=otp;
+
+document.getElementById("otpDisplay").innerText="OTP: "+otp;
+
+}
+
 function verifyOTP(){
 
-fetch("/verify-otp",{
+const otp=document.getElementById("otp").value;
 
-method:"POST",
+if(otp==window.generatedOTP){
 
-headers:{
-"Content-Type":"application/json"
-},
+alert("OTP Verified");
 
-body:JSON.stringify({
-otp:document.getElementById("otp").value
-})
-
-})
-
-.then(res => res.json())
-
-.then(data => {
-
-if(data.success){
-alert("OTP Verified Successfully");
 }else{
+
 alert("Wrong OTP");
-}
-
-});
 
 }
 
+}
 
-// Payment animation
 function makePayment(){
 
-document.getElementById("paymentAnimation").style.display = "block";
+const name=document.getElementById("name").value;
+const mobile=document.getElementById("mobile").value;
+const otp=document.getElementById("otp").value;
+const time=document.getElementById("timeSlot").value;
 
-setTimeout(() => {
+if(name==""||mobile==""||otp==""||time==""||selectedSlot==""){
 
-document.getElementById("paymentAnimation").style.display = "none";
+alert("Please fill all details");
+
+return;
+
+}
+
+if(!/^[A-Za-z ]+$/.test(name)){
+
+alert("Name should contain only alphabets");
+
+return;
+
+}
+
+if(!/^[0-9]+$/.test(mobile)){
+
+alert("Mobile should contain only numbers");
+
+return;
+
+}
+
+if(!/^[0-9]+$/.test(otp)){
+
+alert("OTP should contain only numbers");
+
+return;
+
+}
 
 finishBooking();
 
-},2000);
-
 }
 
-
-// Finish booking and show ticket
 function finishBooking(){
 
-const name = document.getElementById("name").value;
+const name=document.getElementById("name").value;
+const place=document.getElementById("placeSelect").value;
+const vehicle=document.getElementById("vehicleType").value;
+const number=document.getElementById("vehicleNumber").value;
+const time=document.getElementById("timeSlot").value;
 
-const place = document.getElementById("placeSelect").value;
+const bookingID="SGK"+Math.floor(Math.random()*10000);
 
-const vehicle = document.getElementById("vehicleType").value;
+const text=
 
-const number = document.getElementById("vehicleNumber").value;
+"Name: "+name+
+"<br>Place: "+place+
+"<br>Slot: "+selectedSlot+
+"<br>Parking Time: "+time+
+"<br>Vehicle: "+vehicle+
+"<br>Vehicle No: "+number+
+"<br>Booking ID: "+bookingID;
 
-const time = document.getElementById("timeSlot").value;
+document.getElementById("summary").innerHTML=text;
 
-const slot = selectedSlot;
+document.getElementById("qrcode").innerHTML="";
 
-const bookingID = "SGK" + Math.floor(Math.random()*10000);
+new QRCode(document.getElementById("qrcode"),bookingID);
 
-
-// Ticket text
-const text =
-
-"👤 Name: " + name +
-"<br>📍 Place: " + place +
-"<br>🅿 Slot: " + slot +
-"<br>⏱ Parking Time: " + time +
-"<br>🚗 Vehicle: " + vehicle +
-"<br>🔢 Vehicle No: " + number +
-"<br>🎫 Booking ID: " + bookingID;
-
-
-document.getElementById("summary").innerHTML = text;
-
-
-// Clear previous QR
-document.getElementById("qrcode").innerHTML = "";
-
-// Generate QR
-new QRCode(document.getElementById("qrcode"), bookingID);
-
-
-// Show popup ticket
-document.getElementById("popup").style.display = "flex";
+document.getElementById("popup").style.display="flex";
 
 }
 
-
-// Close popup
 function closePopup(){
 
-document.getElementById("popup").style.display = "none";
+document.getElementById("popup").style.display="none";
 
 }

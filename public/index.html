@@ -19,7 +19,7 @@
 
 <div class="card">
 
-<h2 class="title">Select Restaurant / Theatre</h2>
+<h2 class="heading">Select Restaurant / Theatre</h2>
 
 <select id="type" onchange="loadPlaces()">
 <option value="restaurant">Restaurant Parking</option>
@@ -28,7 +28,7 @@
 
 <select id="placeSelect"></select>
 
-<h2 class="title">Available Parking Slots</h2>
+<h2 class="heading">Available Parking Slots</h2>
 
 <div class="grid">
 
@@ -42,9 +42,10 @@
 
 </div>
 
-<h2 class="title">Parking Time</h2>
+<h2 class="heading">Parking Time Slot</h2>
 
 <select id="timeSlot">
+<option value="">Select Time</option>
 <option>30 Minutes</option>
 <option>1 Hour</option>
 <option>2 Hours</option>
@@ -77,9 +78,7 @@
 </div>
 
 <div id="paymentAnimation">
-
 Processing Payment...
-
 </div>
 
 <div id="popup">
