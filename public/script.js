@@ -1,68 +1,80 @@
-let selectedSlot = ""
+let selectedSlot="";
 
-const restaurants = [
-{name:"Taj Restaurant", img:"images/taj.jpg"},
-{name:"Spicy Hub", img:"images/spicyhub.jpg"}
-]
+const restaurants=[
+"Taj Restaurant Hanamkonda",
+"Spicy Hub Hanamkonda",
+"Vaishnavi Grand",
+"Hotel Ashoka",
+"New Paradise",
+"Kritunga Restaurant",
+"SR Grand",
+"Hotel Haritha",
+"Royal Kitchen",
+"Green Bawarchi"
+];
 
-const movies = [
-{name:"PVR Cinemas", img:"images/pvr.jpg"},
-{name:"Asian Mukta", img:"images/asian.jpg"}
-]
+const movies=[
+"Asian Mukta A2 Cinemas",
+"PVR Cinemas Hanamkonda",
+"Amrutha Theatre",
+"Ramakrishna Theatre",
+"Venkateshwara Theatre",
+"INOX Warangal",
+"Asian Mall Cinemas",
+"Shiva Theatre",
+"Laxmi Theatre",
+"Geetha Theatre"
+];
 
 function loadPlaces(){
 
-let type = document.getElementById("type").value
+let type=document.getElementById("type").value;
 
-let list = type=="restaurant" ? restaurants : movies
+let list=type=="restaurant"?restaurants:movies;
 
-let select = document.getElementById("placeSelect")
+let select=document.getElementById("placeSelect");
 
-select.innerHTML=""
+select.innerHTML="";
 
 list.forEach(p=>{
-let option=document.createElement("option")
-option.text=p.name
-option.value=p.img
-select.add(option)
-})
-
-showImage()
+let option=document.createElement("option");
+option.text=p;
+select.add(option);
+});
 
 }
 
-loadPlaces()
-
-function showImage(){
-
-document.getElementById("preview").src =
-document.getElementById("placeSelect").value
-
-}
+loadPlaces();
 
 function sendOTP(){
 
 fetch("/send-otp",{method:"POST"})
 .then(res=>res.json())
 .then(data=>{
-document.getElementById("otpDisplay").innerText="OTP: "+data.otp
-})
+document.getElementById("otpDisplay").innerText="OTP: "+data.otp;
+});
 
 }
 
 function verifyOTP(){
 
 fetch("/verify-otp",{
+
 method:"POST",
+
 headers:{"Content-Type":"application/json"},
+
 body:JSON.stringify({
 otp:document.getElementById("otp").value
 })
+
 })
+
 .then(res=>res.json())
+
 .then(data=>{
-alert(data.success?"OTP Verified":"Wrong OTP")
-})
+alert(data.success?"OTP Verified":"Wrong OTP");
+});
 
 }
 
@@ -70,78 +82,83 @@ document.querySelectorAll(".slot").forEach(slot=>{
 
 slot.onclick=function(){
 
-selectedSlot=this.getAttribute("data")
+selectedSlot=this.getAttribute("data");
 
-document.querySelectorAll(".slot").forEach(s=>s.style.background="green")
+document.querySelectorAll(".slot").forEach(s=>s.style.background="green");
 
-this.style.background="orange"
+this.style.background="orange";
 
 }
 
-})
+});
 
 function makePayment(){
 
-document.getElementById("paymentAnimation").style.display="block"
+document.getElementById("paymentAnimation").style.display="block";
 
 setTimeout(()=>{
 
-document.getElementById("paymentAnimation").style.display="none"
+document.getElementById("paymentAnimation").style.display="none";
 
-finishBooking()
+finishBooking();
 
-},3000)
+},3000);
 
 }
 
 function finishBooking(){
 
-const place=document.getElementById("placeSelect").selectedOptions[0].text
-const vehicle=document.getElementById("vehicleType").value
-const number=document.getElementById("vehicleNumber").value
+const name=document.getElementById("name").value;
 
-const bookingID="SGK"+Math.floor(Math.random()*10000)
+const place=document.getElementById("placeSelect").value;
+
+const vehicle=document.getElementById("vehicleType").value;
+
+const number=document.getElementById("vehicleNumber").value;
+
+const bookingID="SGK"+Math.floor(Math.random()*10000);
 
 const text=
-"Place:"+place+
-"\nSlot:"+selectedSlot+
-"\nVehicle:"+vehicle+
-"\nNumber:"+number+
-"\nBooking ID:"+bookingID
 
-document.getElementById("summary").innerText=text
+"Name: "+name+
+"\nPlace: "+place+
+"\nSlot: "+selectedSlot+
+"\nVehicle: "+vehicle+
+"\nVehicle No: "+number+
+"\nBooking ID: "+bookingID;
 
-new QRCode(document.getElementById("qrcode"),bookingID)
+document.getElementById("summary").innerText=text;
 
-startTimer()
+document.getElementById("qrcode").innerHTML="";
 
-document.getElementById("ticket").style.display="block"
+new QRCode(document.getElementById("qrcode"),bookingID);
+
+document.getElementById("popup").style.display="flex";
 
 }
 
-function startTimer(){
+function closePopup(){
 
-let time=60
-
-setInterval(()=>{
-time--
-document.getElementById("timer").innerText=
-"Parking time remaining: "+time+" minutes"
-},60000)
+document.getElementById("popup").style.display="none";
 
 }
 
 function updateCounter(){
 
 fetch("/admin")
+
 .then(res=>res.json())
+
 .then(data=>{
-document.getElementById("totalSlots").innerText=data.totalSlots
-document.getElementById("bookedSlots").innerText=data.bookedSlots
-document.getElementById("availableSlots").innerText=data.availableSlots
-})
+
+document.getElementById("totalSlots").innerText=data.totalSlots;
+document.getElementById("bookedSlots").innerText=data.bookedSlots;
+document.getElementById("availableSlots").innerText=data.availableSlots;
+
+});
 
 }
 
-setInterval(updateCounter,3000)
-updateCounter()
+setInterval(updateCounter,3000);
+
+updateCounter();

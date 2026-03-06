@@ -3,7 +3,7 @@
 
 <head>
 
-<title>SGK Smart Parking</title>
+<title> Smart Parking</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -13,24 +13,13 @@
 
 <body>
 
-<h1>SGK Smart Parking</h1>
+<h1>SGK Smart Parking Reservation</h1>
 
 <div class="card">
 
-<h3>Select Parking Type</h3>
+<input id="name" placeholder="Your Name">
 
-<select id="type" onchange="loadPlaces()">
-<option value="restaurant">Restaurant Parking</option>
-<option value="movie">Movie Theatre Parking</option>
-</select>
-
-<select id="placeSelect" onchange="showImage()"></select>
-
-<img id="preview">
-
-<h3>Mobile Number</h3>
-
-<input id="mobile">
+<input id="mobile" placeholder="Mobile Number">
 
 <button onclick="sendOTP()">Send OTP</button>
 
@@ -40,20 +29,33 @@
 
 <button onclick="verifyOTP()">Verify OTP</button>
 
+<h3>Select Parking Type</h3>
+
+<select id="type" onchange="loadPlaces()">
+
+<option value="restaurant">Restaurant Parking</option>
+<option value="movie">Movie Theatre Parking</option>
+
+</select>
+
+<h3>Select Place</h3>
+
+<select id="placeSelect"></select>
+
 <h3>Vehicle Type</h3>
 
 <select id="vehicleType">
+
 <option>Two Wheeler</option>
 <option>Four Wheeler</option>
+
 </select>
 
 <h3>Vehicle Number</h3>
 
-<input id="vehicleNumber">
+<input id="vehicleNumber" placeholder="TS09AB1234">
 
 <div class="counter">
-
-<h3>Parking Status</h3>
 
 <p>Total Slots: <span id="totalSlots">6</span></p>
 <p>Booked Slots: <span id="bookedSlots">0</span></p>
@@ -61,7 +63,7 @@
 
 </div>
 
-<h3>Select Slot</h3>
+<h3>Select Parking Slot</h3>
 
 <div class="grid">
 
@@ -79,17 +81,25 @@
 
 </div>
 
-<div id="paymentAnimation">Processing Payment...</div>
+<div id="paymentAnimation">
 
-<div id="ticket">
+Processing Payment...
 
-<h2>Booking Ticket</h2>
+</div>
+
+<div id="popup">
+
+<div class="popupContent">
+
+<h2>Booking Confirmed</h2>
 
 <p id="summary"></p>
 
 <div id="qrcode"></div>
 
-<p id="timer"></p>
+<button onclick="closePopup()">Close</button>
+
+</div>
 
 </div>
 
