@@ -13,44 +13,32 @@
 
 <body>
 
-<div class="container">
+<div class="card">
 
 <h1>🚗 Smart Parking Online Reservation</h1>
 
-<div class="card">
-
-<h2 class="heading">Select Restaurant / Theatre</h2>
+<h2>Select Parking Type</h2>
 
 <select id="type" onchange="loadPlaces()">
 <option value="restaurant">Restaurant Parking</option>
-<option value="movie">Movie Theatre Parking</option>
+<option value="theatre">Theatre Parking</option>
 </select>
 
-<select id="placeSelect"></select>
+<select id="place"></select>
 
-<h2 class="heading">Available Parking Slots</h2>
+<h2>Available Parking Slots</h2>
 
-<div class="grid">
+<div class="slots">
 
-<button class="slot" data="A1">A1</button>
-<button class="slot" data="A2">A2</button>
-<button class="slot" data="A3">A3</button>
+<button class="slot" onclick="selectSlot(this)">A1</button>
+<button class="slot" onclick="selectSlot(this)">A2</button>
+<button class="slot" onclick="selectSlot(this)">A3</button>
 
-<button class="slot" data="B1">B1</button>
-<button class="slot" data="B2">B2</button>
-<button class="slot" data="B3">B3</button>
+<button class="slot" onclick="selectSlot(this)">B1</button>
+<button class="slot" onclick="selectSlot(this)">B2</button>
+<button class="slot" onclick="selectSlot(this)">B3</button>
 
 </div>
-
-<h2 class="heading">Parking Time Slot</h2>
-
-<select id="timeSlot">
-<option value="">Select Time</option>
-<option>30 Minutes</option>
-<option>1 Hour</option>
-<option>2 Hours</option>
-<option>3 Hours</option>
-</select>
 
 <input id="name" placeholder="Enter Name">
 
@@ -58,7 +46,7 @@
 
 <button onclick="sendOTP()">Send OTP</button>
 
-<p id="otpDisplay"></p>
+<p id="otpText"></p>
 
 <input id="otp" placeholder="Enter OTP">
 
@@ -71,33 +59,44 @@
 
 <input id="vehicleNumber" placeholder="Vehicle Number">
 
-<button class="reserve" onclick="makePayment()">Reserve Parking Slot</button>
+<h2>Select Time Slot</h2>
+
+<select id="timeSlot">
+
+<option value="">Select Time</option>
+
+<option>09:00 AM - 10:00 AM</option>
+<option>10:00 AM - 11:00 AM</option>
+<option>11:00 AM - 12:00 PM</option>
+<option>12:00 PM - 01:00 PM</option>
+<option>01:00 PM - 02:00 PM</option>
+<option>02:00 PM - 03:00 PM</option>
+<option>03:00 PM - 04:00 PM</option>
+<option>04:00 PM - 05:00 PM</option>
+<option>05:00 PM - 06:00 PM</option>
+
+</select>
+
+<button class="payBtn" onclick="bookParking()">Make Payment</button>
 
 </div>
 
-</div>
-
-<div id="paymentAnimation">
-Processing Payment...
-</div>
 
 <div id="popup">
 
 <div class="ticket">
 
-<h2>🎟 Parking Ticket</h2>
+<h2>Parking Ticket</h2>
 
 <hr>
 
-<div id="summary"></div>
+<div id="ticketDetails"></div>
 
 <hr>
 
-<div class="qrContainer">
 <div id="qrcode"></div>
-</div>
 
-<button onclick="closePopup()">Close</button>
+<button onclick="closeTicket()">Close</button>
 
 </div>
 

@@ -1,66 +1,91 @@
-let selectedSlot = "";
-
-function loadPlaces(){
+let selectedSlot="";
+let generatedOTP="";
 
 const restaurants=[
 "Taj Restaurant Hanamkonda",
+"Paradise Biryani",
+"Kritunga Restaurant",
 "Spicy Hub",
-"Vaishnavi Grand"
+"Vaishnavi Grand",
+"SR Grand",
+"Hotel Ashoka",
+"Green Bawarchi",
+"Royal Kitchen",
+"Hotel Haritha"
 ];
 
-const select=document.getElementById("placeSelect");
+const theatres=[
+"Asian Mukta A2 Cinemas",
+"PVR Cinemas",
+"INOX Warangal",
+"Amrutha Theatre",
+"Ramakrishna Theatre",
+"Venkateshwara Theatre",
+"Laxmi Theatre",
+"Geetha Theatre",
+"Asian Mall Cinemas",
+"Shiva Theatre"
+];
 
-select.innerHTML="";
 
-restaurants.forEach(r=>{
+function loadPlaces(){
+
+let type=document.getElementById("type").value;
+
+let list=(type==="restaurant")?restaurants:theatres;
+
+let place=document.getElementById("place");
+
+place.innerHTML="";
+
+list.forEach(p=>{
+
 let option=document.createElement("option");
-option.text=r;
-select.add(option);
+option.text=p;
+
+place.add(option);
+
 });
 
 }
 
 loadPlaces();
 
-document.querySelectorAll(".slot").forEach(slot=>{
 
-slot.onclick=function(){
+function selectSlot(btn){
 
-selectedSlot=this.getAttribute("data");
+document.querySelectorAll(".slot").forEach(b=>b.style.background="#2ecc71");
 
-document.querySelectorAll(".slot").forEach(s=>s.style.background="#2ecc71");
+btn.style.background="orange";
 
-this.style.background="orange";
+selectedSlot=btn.innerText;
 
 }
 
-});
 
 function sendOTP(){
 
-const mobile=document.getElementById("mobile").value;
+let mobile=document.getElementById("mobile").value;
 
 if(!/^[0-9]{10}$/.test(mobile)){
 
 alert("Enter valid mobile number");
-
 return;
 
 }
 
-const otp=Math.floor(100000+Math.random()*900000);
+generatedOTP=Math.floor(100000+Math.random()*900000);
 
-window.generatedOTP=otp;
-
-document.getElementById("otpDisplay").innerText="OTP: "+otp;
+document.getElementById("otpText").innerText="OTP: "+generatedOTP;
 
 }
 
+
 function verifyOTP(){
 
-const otp=document.getElementById("otp").value;
+let otp=document.getElementById("otp").value;
 
-if(otp==window.generatedOTP){
+if(otp==generatedOTP){
 
 alert("OTP Verified");
 
@@ -72,70 +97,49 @@ alert("Wrong OTP");
 
 }
 
-function makePayment(){
 
-const name=document.getElementById("name").value;
-const mobile=document.getElementById("mobile").value;
-const otp=document.getElementById("otp").value;
-const time=document.getElementById("timeSlot").value;
+function bookParking(){
 
-if(name==""||mobile==""||otp==""||time==""||selectedSlot==""){
-
-alert("Please fill all details");
-
-return;
-
-}
+let name=document.getElementById("name").value;
+let mobile=document.getElementById("mobile").value;
+let vehicle=document.getElementById("vehicleType").value;
+let number=document.getElementById("vehicleNumber").value;
+let time=document.getElementById("timeSlot").value;
 
 if(!/^[A-Za-z ]+$/.test(name)){
 
-alert("Name should contain only alphabets");
-
+alert("Name must contain alphabets only");
 return;
 
 }
 
-if(!/^[0-9]+$/.test(mobile)){
+if(selectedSlot===""){
 
-alert("Mobile should contain only numbers");
-
+alert("Select parking slot");
 return;
 
 }
 
-if(!/^[0-9]+$/.test(otp)){
+if(time===""){
 
-alert("OTP should contain only numbers");
-
+alert("Select time slot");
 return;
 
 }
 
-finishBooking();
+let bookingID="SGK"+Math.floor(Math.random()*10000);
 
-}
-
-function finishBooking(){
-
-const name=document.getElementById("name").value;
-const place=document.getElementById("placeSelect").value;
-const vehicle=document.getElementById("vehicleType").value;
-const number=document.getElementById("vehicleNumber").value;
-const time=document.getElementById("timeSlot").value;
-
-const bookingID="SGK"+Math.floor(Math.random()*10000);
-
-const text=
+let text=
 
 "Name: "+name+
-"<br>Place: "+place+
+"<br>Place: "+document.getElementById("place").value+
 "<br>Slot: "+selectedSlot+
-"<br>Parking Time: "+time+
 "<br>Vehicle: "+vehicle+
 "<br>Vehicle No: "+number+
+"<br>Time: "+time+
 "<br>Booking ID: "+bookingID;
 
-document.getElementById("summary").innerHTML=text;
+document.getElementById("ticketDetails").innerHTML=text;
 
 document.getElementById("qrcode").innerHTML="";
 
@@ -145,7 +149,8 @@ document.getElementById("popup").style.display="flex";
 
 }
 
-function closePopup(){
+
+function closeTicket(){
 
 document.getElementById("popup").style.display="none";
 

@@ -10,9 +10,13 @@ align-items:center;
 
 }
 
-.container{
+.card{
 
-width:700px;
+background:rgba(255,255,255,0.25);
+backdrop-filter:blur(10px);
+padding:40px;
+border-radius:15px;
+width:550px;
 text-align:center;
 
 }
@@ -20,40 +24,29 @@ text-align:center;
 h1{
 
 color:white;
-margin-bottom:20px;
 
 }
 
-.card{
-
-background:white;
-padding:30px;
-border-radius:15px;
-box-shadow:0 10px 20px rgba(0,0,0,0.3);
-
-}
-
-.heading{
+h2{
 
 color:black;
-margin-top:10px;
+margin-top:20px;
 
 }
 
 select,input{
 
+width:80%;
 padding:10px;
 margin:8px;
 border-radius:6px;
 border:1px solid #ccc;
-width:220px;
 
 }
 
 button{
 
-padding:10px 14px;
-margin:6px;
+padding:10px 15px;
 border:none;
 border-radius:6px;
 background:#e53935;
@@ -62,25 +55,25 @@ cursor:pointer;
 
 }
 
-.grid{
+.slots{
 
-display:flex;
-justify-content:center;
-gap:10px;
-margin:15px 0;
+margin-top:15px;
 
 }
 
 .slot{
 
 background:#2ecc71;
-padding:10px 15px;
-border-radius:6px;
 color:white;
+padding:10px 15px;
+margin:6px;
+border:none;
+border-radius:6px;
+cursor:pointer;
 
 }
 
-.reserve{
+.payBtn{
 
 background:#ff5722;
 
@@ -103,27 +96,16 @@ align-items:center;
 .ticket{
 
 background:white;
-color:black;
-width:350px;
-padding:25px;
-border-radius:12px;
+padding:20px;
+border-radius:10px;
 text-align:center;
+width:300px;
 border:3px dashed #444;
 
 }
 
 .ticket hr{
 
-border:none;
 border-top:1px dashed #aaa;
-margin:15px 0;
-
-}
-
-.qrContainer{
-
-display:flex;
-justify-content:center;
-margin:20px 0;
 
 }
