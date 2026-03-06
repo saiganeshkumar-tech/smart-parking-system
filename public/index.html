@@ -3,83 +3,97 @@
 
 <head>
 
-<title>Smart Parking Online Reservation</title>
+<title>SGK Smart Parking</title>
 
 <link rel="stylesheet" href="style.css">
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 </head>
 
 <body>
 
-<div class="container">
+<h1>SGK Smart Parking</h1>
 
-<h1>🚗 Smart Parking Online Reservation</h1>
+<div class="card">
 
-<label>Select Restaurant</label>
+<h3>Select Parking Type</h3>
 
-<select id="restaurant">
-
-<option>Paradise Biryani - Hanamkonda</option>
-<option>Hotel Ashoka - Hanamkonda</option>
-<option>KFC - Hanamkonda</option>
-<option>Subway - Hanamkonda</option>
-
+<select id="type" onchange="loadPlaces()">
+<option value="restaurant">Restaurant Parking</option>
+<option value="movie">Movie Theatre Parking</option>
 </select>
 
-<h2>Available Parking Slots</h2>
+<select id="placeSelect" onchange="showImage()"></select>
 
-<div class="slots">
+<img id="preview">
 
-<button class="slot" data-slot="A1">A1</button>
-<button class="slot" data-slot="A2">A2</button>
-<button class="slot" data-slot="A3">A3</button>
+<h3>Mobile Number</h3>
 
-<button class="slot" data-slot="B1">B1</button>
-<button class="slot" data-slot="B2">B2</button>
-<button class="slot" data-slot="B3">B3</button>
-
-</div>
-
-<div class="form">
-
-<input id="name" type="text" placeholder="Enter Name">
-
-<input id="mobile" type="tel" placeholder="Enter Mobile Number">
+<input id="mobile">
 
 <button onclick="sendOTP()">Send OTP</button>
 
-<input id="otp" type="text" placeholder="Enter OTP">
+<p id="otpDisplay"></p>
+
+<input id="otp" placeholder="Enter OTP">
 
 <button onclick="verifyOTP()">Verify OTP</button>
 
-<input id="time" type="time">
+<h3>Vehicle Type</h3>
 
-<button class="book" onclick="bookSlot()">Reserve Parking Slot</button>
+<select id="vehicleType">
+<option>Two Wheeler</option>
+<option>Four Wheeler</option>
+</select>
+
+<h3>Vehicle Number</h3>
+
+<input id="vehicleNumber">
+
+<div class="counter">
+
+<h3>Parking Status</h3>
+
+<p>Total Slots: <span id="totalSlots">6</span></p>
+<p>Booked Slots: <span id="bookedSlots">0</span></p>
+<p>Available Slots: <span id="availableSlots">6</span></p>
 
 </div>
 
-</div>
+<h3>Select Slot</h3>
 
-<!-- Booking Popup -->
+<div class="grid">
 
-<div id="popup" class="popup">
+<button class="slot" data="A1">A1</button>
+<button class="slot" data="A2">A2</button>
+<button class="slot" data="A3">A3</button>
 
-<div class="popup-content">
-
-<h2>🚗 Booking Confirmed</h2>
-
-<p id="bookingDetails"></p>
-
-<button onclick="closePopup()">Close</button>
+<button class="slot" data="B1">B1</button>
+<button class="slot" data="B2">B2</button>
+<button class="slot" data="B3">B3</button>
 
 </div>
+
+<button onclick="makePayment()">Make Payment</button>
+
+</div>
+
+<div id="paymentAnimation">Processing Payment...</div>
+
+<div id="ticket">
+
+<h2>Booking Ticket</h2>
+
+<p id="summary"></p>
+
+<div id="qrcode"></div>
+
+<p id="timer"></p>
 
 </div>
 
 <script src="script.js"></script>
 
 </body>
-
 </html>

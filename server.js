@@ -4,61 +4,62 @@ const path = require("path");
 const app = express();
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname,"public")));
+app.use(express.static(path.join(__dirname, "public")));
 
 let storedOTP = "";
-let bookedSlots = []; // store booked slots
+let bookedSlots = [];
+let bookings = [];
 
-// Send OTP
-app.post("/send-otp",(req,res)=>{
+app.post("/send-otp", (req, res) => {
 
-const otp = Math.floor(100000 + Math.random()*900000);
+const otp = Math.floor(100000 + Math.random() * 900000);
 
 storedOTP = otp;
 
-console.log("Generated OTP:",otp);
+console.log("OTP:", otp);
 
-res.json({message:"OTP sent"});
+res.json({ otp });
 
 });
 
-// Verify OTP
-app.post("/verify-otp",(req,res)=>{
+app.post("/verify-otp", (req, res) => {
 
-const userOTP = req.body.otp;
+res.json({ success: req.body.otp == storedOTP });
 
-if(userOTP == storedOTP){
-res.json({message:"OTP Verified"});
-}else{
-res.json({message:"Invalid OTP"});
+});
+
+app.post("/book", (req, res) => {
+
+const data = req.body;
+
+if (bookedSlots.includes(data.slot)) {
+return res.json({ msg: "Slot already booked" });
 }
 
-});
+bookedSlots.push(data.slot);
+bookings.push(data);
 
-// Book Slot
-app.post("/book-slot",(req,res)=>{
-
-const slot = req.body.slot;
-
-if(bookedSlots.includes(slot)){
-return res.json({message:"Slot already booked"});
-}
-
-bookedSlots.push(slot);
-
-console.log("Booked Slots:",bookedSlots);
-
-res.json({message:"Slot booked successfully"});
+res.json({ msg: "Booking successful" });
 
 });
 
-// Get booked slots
-app.get("/slots",(req,res)=>{
+app.get("/slots", (req, res) => {
 
-res.json({bookedSlots});
+res.json({ slots: bookedSlots });
 
 });
 
-app.listen(3000,()=>{
-console.log("Server running on port 3000");
+app.get("/admin", (req, res) => {
+
+res.json({
+totalSlots: 6,
+bookedSlots: bookedSlots.length,
+availableSlots: 6 - bookedSlots.length,
+bookings: bookings
+});
+
+});
+
+app.listen(process.env.PORT || 3000, () => {
+console.log("Server running");
 });

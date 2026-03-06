@@ -1,121 +1,147 @@
-let selectedSlot = "";
+let selectedSlot = ""
 
-// SLOT SELECTION
+const restaurants = [
+{name:"Taj Restaurant", img:"images/taj.jpg"},
+{name:"Spicy Hub", img:"images/spicyhub.jpg"}
+]
 
-document.querySelectorAll(".slot").forEach(slot=>{
+const movies = [
+{name:"PVR Cinemas", img:"images/pvr.jpg"},
+{name:"Asian Mukta", img:"images/asian.jpg"}
+]
 
-slot.addEventListener("click",function(){
+function loadPlaces(){
 
-selectedSlot = this.dataset.slot;
+let type = document.getElementById("type").value
 
-document.querySelectorAll(".slot").forEach(s=>{
-s.style.background="#28a745";
-});
+let list = type=="restaurant" ? restaurants : movies
 
-this.style.background="orange";
+let select = document.getElementById("placeSelect")
 
-});
+select.innerHTML=""
 
-});
+list.forEach(p=>{
+let option=document.createElement("option")
+option.text=p.name
+option.value=p.img
+select.add(option)
+})
 
+showImage()
 
-// SEND OTP
+}
+
+loadPlaces()
+
+function showImage(){
+
+document.getElementById("preview").src =
+document.getElementById("placeSelect").value
+
+}
 
 function sendOTP(){
 
-let mobile = document.getElementById("mobile").value;
-
-fetch("/send-otp",{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({mobile:mobile})
-
+fetch("/send-otp",{method:"POST"})
+.then(res=>res.json())
+.then(data=>{
+document.getElementById("otpDisplay").innerText="OTP: "+data.otp
 })
 
-.then(res=>res.json())
-
-.then(data=>{
-
-alert("OTP generated. Check terminal.");
-
-});
-
 }
-
-
-// VERIFY OTP
 
 function verifyOTP(){
 
-let otp = document.getElementById("otp").value;
-
 fetch("/verify-otp",{
-
 method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+otp:document.getElementById("otp").value
+})
+})
+.then(res=>res.json())
+.then(data=>{
+alert(data.success?"OTP Verified":"Wrong OTP")
+})
 
-headers:{
-"Content-Type":"application/json"
-},
+}
 
-body:JSON.stringify({otp:otp})
+document.querySelectorAll(".slot").forEach(slot=>{
+
+slot.onclick=function(){
+
+selectedSlot=this.getAttribute("data")
+
+document.querySelectorAll(".slot").forEach(s=>s.style.background="green")
+
+this.style.background="orange"
+
+}
 
 })
 
+function makePayment(){
+
+document.getElementById("paymentAnimation").style.display="block"
+
+setTimeout(()=>{
+
+document.getElementById("paymentAnimation").style.display="none"
+
+finishBooking()
+
+},3000)
+
+}
+
+function finishBooking(){
+
+const place=document.getElementById("placeSelect").selectedOptions[0].text
+const vehicle=document.getElementById("vehicleType").value
+const number=document.getElementById("vehicleNumber").value
+
+const bookingID="SGK"+Math.floor(Math.random()*10000)
+
+const text=
+"Place:"+place+
+"\nSlot:"+selectedSlot+
+"\nVehicle:"+vehicle+
+"\nNumber:"+number+
+"\nBooking ID:"+bookingID
+
+document.getElementById("summary").innerText=text
+
+new QRCode(document.getElementById("qrcode"),bookingID)
+
+startTimer()
+
+document.getElementById("ticket").style.display="block"
+
+}
+
+function startTimer(){
+
+let time=60
+
+setInterval(()=>{
+time--
+document.getElementById("timer").innerText=
+"Parking time remaining: "+time+" minutes"
+},60000)
+
+}
+
+function updateCounter(){
+
+fetch("/admin")
 .then(res=>res.json())
-
 .then(data=>{
-
-alert(data.message);
-
-});
-
-}
-
-
-// BOOK SLOT
-
-function bookSlot(){
-
-let name = document.getElementById("name").value;
-
-let mobile = document.getElementById("mobile").value;
-
-let time = document.getElementById("time").value;
-
-let restaurant = document.getElementById("restaurant").value;
-
-if(selectedSlot == ""){
-
-alert("Please select a parking slot");
-
-return;
+document.getElementById("totalSlots").innerText=data.totalSlots
+document.getElementById("bookedSlots").innerText=data.bookedSlots
+document.getElementById("availableSlots").innerText=data.availableSlots
+})
 
 }
 
-let details = `
-Name: ${name} <br>
-Phone: ${mobile} <br>
-Restaurant: ${restaurant} <br>
-Slot: ${selectedSlot} <br>
-Time: ${time}
-`;
-
-document.getElementById("bookingDetails").innerHTML = details;
-
-document.getElementById("popup").style.display="flex";
-
-}
-
-
-// CLOSE POPUP
-
-function closePopup(){
-
-document.getElementById("popup").style.display="none";
-
-}
+setInterval(updateCounter,3000)
+updateCounter()
