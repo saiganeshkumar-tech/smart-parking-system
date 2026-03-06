@@ -3,7 +3,7 @@
 
 <head>
 
-<title> Smart Parking</title>
+<title>Smart Parking Online Reservation</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -13,57 +13,22 @@
 
 <body>
 
-<h1>SGK Smart Parking Reservation</h1>
+<div class="container">
+
+<h1>🚗 Smart Parking Online Reservation</h1>
 
 <div class="card">
 
-<input id="name" placeholder="Your Name">
-
-<input id="mobile" placeholder="Mobile Number">
-
-<button onclick="sendOTP()">Send OTP</button>
-
-<p id="otpDisplay"></p>
-
-<input id="otp" placeholder="Enter OTP">
-
-<button onclick="verifyOTP()">Verify OTP</button>
-
-<h3>Select Parking Type</h3>
+<h3>Select Restaurant / Theatre</h3>
 
 <select id="type" onchange="loadPlaces()">
-
 <option value="restaurant">Restaurant Parking</option>
 <option value="movie">Movie Theatre Parking</option>
-
 </select>
-
-<h3>Select Place</h3>
 
 <select id="placeSelect"></select>
 
-<h3>Vehicle Type</h3>
-
-<select id="vehicleType">
-
-<option>Two Wheeler</option>
-<option>Four Wheeler</option>
-
-</select>
-
-<h3>Vehicle Number</h3>
-
-<input id="vehicleNumber" placeholder="TS09AB1234">
-
-<div class="counter">
-
-<p>Total Slots: <span id="totalSlots">6</span></p>
-<p>Booked Slots: <span id="bookedSlots">0</span></p>
-<p>Available Slots: <span id="availableSlots">6</span></p>
-
-</div>
-
-<h3>Select Parking Slot</h3>
+<h3>Available Parking Slots</h3>
 
 <div class="grid">
 
@@ -77,7 +42,34 @@
 
 </div>
 
-<button onclick="makePayment()">Make Payment</button>
+<input id="name" placeholder="Enter Name">
+
+<input id="mobile" placeholder="Enter Mobile Number">
+
+<button onclick="sendOTP()">Send OTP</button>
+
+<input id="otp" placeholder="Enter OTP">
+
+<button onclick="verifyOTP()">Verify OTP</button>
+
+<select id="vehicleType">
+<option>Two Wheeler</option>
+<option>Four Wheeler</option>
+</select>
+
+<input id="vehicleNumber" placeholder="Vehicle Number">
+
+<div class="counter">
+
+<p>Total Slots: <span id="totalSlots">6</span></p>
+<p>Booked Slots: <span id="bookedSlots">0</span></p>
+<p>Available Slots: <span id="availableSlots">6</span></p>
+
+</div>
+
+<button class="reserve" onclick="makePayment()">Reserve Parking Slot</button>
+
+</div>
 
 </div>
 
@@ -89,13 +81,19 @@ Processing Payment...
 
 <div id="popup">
 
-<div class="popupContent">
+<div class="ticket">
 
-<h2>Booking Confirmed</h2>
+<h2>🎟 Parking Ticket</h2>
 
-<p id="summary"></p>
+<hr>
 
+<div id="summary"></div>
+
+<hr>
+
+<div class="qrContainer">
 <div id="qrcode"></div>
+</div>
 
 <button onclick="closePopup()">Close</button>
 

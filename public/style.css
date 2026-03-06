@@ -1,64 +1,117 @@
 body{
+
+margin:0;
 font-family:Arial;
-background:linear-gradient(135deg,#1e3c72,#2a5298);
-text-align:center;
+background:url("https://images.unsplash.com/photo-1503376780353-7e6692767b70") no-repeat center center/cover;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
 color:white;
+
+}
+
+.container{
+
+width:700px;
+text-align:center;
+
+}
+
+h1{
+
+margin-bottom:20px;
+font-size:28px;
+
 }
 
 .card{
-background:rgba(255,255,255,0.1);
-padding:20px;
-width:400px;
-margin:auto;
-border-radius:12px;
+
+background:rgba(255,255,255,0.15);
+backdrop-filter:blur(10px);
+padding:25px;
+border-radius:15px;
+box-shadow:0 10px 25px rgba(0,0,0,0.5);
+
 }
 
-input,select,button{
+select,input{
+
 padding:10px;
-margin:8px;
-width:90%;
+margin:6px;
 border-radius:6px;
 border:none;
+width:220px;
+
 }
 
 button{
-background:#ff7f50;
+
+padding:10px 14px;
+margin:6px;
+border:none;
+border-radius:6px;
+background:#ff5252;
 color:white;
 cursor:pointer;
+transition:0.3s;
+
+}
+
+button:hover{
+
+background:#ff1744;
+
+}
+
+.reserve{
+
+background:#e53935;
+
 }
 
 .grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
+
+display:flex;
+justify-content:center;
 gap:10px;
+margin:15px 0;
+
 }
 
 .slot{
-background:#27ae60;
-color:white;
-padding:15px;
-border-radius:8px;
+
+background:#2ecc71;
+padding:10px 14px;
+border-radius:6px;
+
 }
 
 .counter{
-background:#16a085;
+
+margin-top:10px;
+background:rgba(0,0,0,0.3);
 padding:10px;
 border-radius:8px;
-margin:10px;
+
 }
 
 #paymentAnimation{
+
 display:none;
 position:fixed;
-top:40%;
-left:40%;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
 background:white;
 color:black;
 padding:20px;
 border-radius:10px;
+
 }
 
 #popup{
+
 display:none;
 position:fixed;
 top:0;
@@ -68,12 +121,64 @@ height:100%;
 background:rgba(0,0,0,0.7);
 justify-content:center;
 align-items:center;
+
 }
 
-.popupContent{
+/* Ticket Style */
+
+.ticket{
+
 background:white;
 color:black;
-padding:20px;
-border-radius:10px;
-width:300px;
+width:340px;
+padding:25px;
+border-radius:12px;
+text-align:center;
+border:3px dashed #444;
+box-shadow:0 10px 20px rgba(0,0,0,0.3);
+
+}
+
+.ticket h2{
+
+margin-top:0;
+
+}
+
+.ticket hr{
+
+border:none;
+border-top:1px dashed #888;
+margin:15px 0;
+
+}
+
+#summary{
+
+line-height:1.6;
+font-size:15px;
+
+}
+
+.qrContainer{
+
+display:flex;
+justify-content:center;
+align-items:center;
+margin:20px 0;
+
+}
+
+#qrcode{
+
+width:200px;
+height:200px;
+
+}
+
+.ticket button{
+
+width:100%;
+background:#e74c3c;
+color:white;
 }
